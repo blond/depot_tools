@@ -11,14 +11,38 @@ https://chromium.googlesource.com/infra/infra/+/master/go/src/infra/tools/git
 """
 
 import logging
-import optparse
+
 import os
 import subprocess
 import sys
 import threading
 import time
 
+from optparse import OptionParser, BadOptionError
 from git_common import GIT_EXE, GIT_TRANSIENT_ERRORS_RE
+
+
+class PassThroughOptionParser(OptionParser):
+    """
+    An unknown option pass-through implementation of OptionParser.
+
+    When unknown arguments are encountered, bundle with largs and try again,
+    until rargs is depleted.
+
+    sys.exit(status) will still be called if a known argument is passed
+    incorrectly (e.g. missing arguments or bad argument types, etc.)        
+    """
+    def _process_long_opt(self, rargs, values):
+        try:
+            OptionParser._process_long_opt(self, rargs, values)
+        except BadOptionError, err:
+            self.largs.append(err.opt_str)
+
+    def _process_short_opts(self, rargs, values):
+        try:
+            OptionParser._process_short_opts(self, rargs, values)
+        except BadOptionError, err:
+            self.largs.append(err.opt_str)
 
 
 class TeeThread(threading.Thread):
@@ -132,7 +156,7 @@ def main(args):
       if elem != git_exec])
     return subprocess.call([GIT_EXE] + args, env=env)
 
-  parser = optparse.OptionParser()
+  parser = PassThroughOptionParser()
   parser.disable_interspersed_args()
   parser.add_option('-v', '--verbose',
                     action='count', default=0,
