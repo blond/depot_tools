@@ -137,7 +137,7 @@ def main(args):
   parser.add_option('-v', '--verbose',
                     action='count', default=0,
                     help="Increase verbosity; can be specified multiple times")
-  parser.add_option('-c', '--retry-count', metavar='COUNT',
+  parser.add_option('--retry-count', metavar='COUNT',
                     type=int, default=GitRetry.DEFAULT_RETRY_COUNT,
                     help="Number of times to retry (default=%default)")
   parser.add_option('-d', '--delay', metavar='SECONDS',
