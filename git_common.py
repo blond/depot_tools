@@ -74,7 +74,7 @@ FREEZE_MATCHER = re.compile(r'%s.(%s)' % (FREEZE, '|'.join(FREEZE_SECTIONS)))
 # This list is inspired/derived from the one in ChromiumOS's Chromite:
 # <CHROMITE>/lib/git.py::GIT_TRANSIENT_ERRORS
 #
-# It was last imported from '7add3ac29564d98ac35ce426bc295e743e7c0c02'.
+# It was last imported from '619f8e3a5b0322d36ea45209346a822b77413c57'.
 GIT_TRANSIENT_ERRORS = (
     # crbug.com/285832
     r'!.*\[remote rejected\].*\(error in hook\)',
@@ -99,6 +99,7 @@ GIT_TRANSIENT_ERRORS = (
 
     # crbug.com/202807
     r'The remote end hung up unexpectedly',
+    r'The remote end hung up upon initial contact',
 
     # crbug.com/298189
     r'TLS packet with unexpected length was received',
@@ -109,15 +110,32 @@ GIT_TRANSIENT_ERRORS = (
     # crbug.com/388876
     r'Connection timed out',
 
+    # crbug.com/535306
+    r'Service Temporarily Unavailable',
+
+    # crbug.com/675262
+    r'Connection refused',
+
     # crbug.com/430343
     # TODO(dnj): Resync with Chromite.
     r'The requested URL returned error: 5\d+',
 
+    # crbug.com/725233
+    r'Operation too slow',
+
     r'Connection reset by peer',
 
     r'Unable to look up',
-
     r'Couldn\'t resolve host',
+    r'Unknown SSL protocol error',
+
+    # crbug.com/850130 & crbug.com/898208
+    r'Git repository not found',
+    r'Couldn\'t connect to server',
+    r'transfer closed with outstanding read data remaining',
+    r'Access denied to',
+
+    r'remote: fatal error in commit_refs',
 )
 
 GIT_TRANSIENT_ERRORS_RE = re.compile('|'.join(GIT_TRANSIENT_ERRORS),
