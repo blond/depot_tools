@@ -136,6 +136,9 @@ GIT_TRANSIENT_ERRORS = (
     r'Access denied to',
 
     r'remote: fatal error in commit_refs',
+
+    r'GitHub SSH access is temporarily unavailable',
+    r'Could not read from remote repository',
 )
 
 GIT_TRANSIENT_ERRORS_RE = re.compile('|'.join(GIT_TRANSIENT_ERRORS),
